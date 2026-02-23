@@ -59,7 +59,8 @@ class GiftAcceptanceTest extends AcceptanceTestBase {
                 .when()
                 .post("/api/gifts")
                 .then()
-                .statusCode(400);
+                .statusCode(400)
+                .body("code", equalTo("INSUFFICIENT_STOCK"));
 
         // then: 재고가 변경되지 않음
         Option unchanged = optionRepository.findById(2L).orElseThrow();
@@ -82,7 +83,8 @@ class GiftAcceptanceTest extends AcceptanceTestBase {
                 .when()
                 .post("/api/gifts")
                 .then()
-                .statusCode(404);
+                .statusCode(404)
+                .body("code", equalTo("OPTION_NOT_FOUND"));
     }
 
     @DisplayName("Member-Id 헤더 누락 시 선물 전송이 실패한다")

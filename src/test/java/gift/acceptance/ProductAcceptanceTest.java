@@ -76,6 +76,7 @@ class ProductAcceptanceTest extends AcceptanceTestBase {
                 .when()
                 .post("/api/products")
                 .then()
-                .statusCode(404);
+                .statusCode(404)
+                .body("code", equalTo("CATEGORY_NOT_FOUND"));
     }
 }
