@@ -76,6 +76,6 @@ class ProductAcceptanceTest extends AcceptanceTestBase {
                 .when()
                 .post("/api/products")
                 .then()
-                .statusCode(500);
+                .statusCode(404);
     }
 }

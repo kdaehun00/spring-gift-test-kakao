@@ -1,5 +1,7 @@
 package gift.model;
 
+import gift.error.BusinessException;
+import gift.error.GiftErrorCode;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -33,7 +35,7 @@ public class Option {
 
     public void decrease(final int quantity) {
         if (this.quantity < quantity) {
-            throw new IllegalStateException();
+            throw new BusinessException(GiftErrorCode.INSUFFICIENT_STOCK);
         }
         this.quantity -= quantity;
     }

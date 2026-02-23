@@ -58,7 +58,7 @@ class GiftAcceptanceTest extends AcceptanceTestBase {
                 .when()
                 .post("/api/gifts")
                 .then()
-                .statusCode(500);
+                .statusCode(400);
 
         // then: 재고가 변경되지 않음
         Option unchanged = optionRepository.findById(2L).orElseThrow();
@@ -81,6 +81,6 @@ class GiftAcceptanceTest extends AcceptanceTestBase {
                 .when()
                 .post("/api/gifts")
                 .then()
-                .statusCode(500);
+                .statusCode(404);
     }
 }

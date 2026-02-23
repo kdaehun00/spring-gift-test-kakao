@@ -1,5 +1,7 @@
 package gift.application;
 
+import gift.error.BusinessException;
+import gift.error.ProductErrorCode;
 import gift.model.Option;
 import gift.model.OptionRepository;
 import gift.model.Product;
@@ -21,7 +23,8 @@ public class OptionService {
     }
 
     public Option create(final CreateOptionRequest request) {
-        final Product product = productRepository.findById(request.getProductId()).orElseThrow();
+        final Product product = productRepository.findById(request.getProductId())
+                .orElseThrow(() -> new BusinessException(ProductErrorCode.PRODUCT_NOT_FOUND));
         return optionRepository.save(new Option(request.getName(), request.getQuantity(), product));
     }
 
