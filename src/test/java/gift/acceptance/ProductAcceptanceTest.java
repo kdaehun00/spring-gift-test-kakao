@@ -46,7 +46,9 @@ class ProductAcceptanceTest extends AcceptanceTestBase {
                 .when()
                 .post("/api/products")
                 .then()
-                .statusCode(200);
+                .statusCode(200)
+                .body("name", equalTo("떡볶이"))
+                .body("price", equalTo(5000));
 
         // then: 조회 시 생성한 상품이 포함된다
         RestAssured.given()

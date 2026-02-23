@@ -39,7 +39,8 @@ class CategoryAcceptanceTest extends AcceptanceTestBase {
                 .when()
                 .post("/api/categories")
                 .then()
-                .statusCode(200);
+                .statusCode(200)
+                .body("name", equalTo("식품"));
 
         // then: 조회 시 생성한 카테고리가 포함된다
         RestAssured.given()
