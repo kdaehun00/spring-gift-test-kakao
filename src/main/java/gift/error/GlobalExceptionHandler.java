@@ -45,12 +45,4 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(response);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleException(final Exception e) {
-        final ErrorResponse response = new ErrorResponse(
-                CommonErrorCode.INTERNAL_SERVER_ERROR.getCode(),
-                CommonErrorCode.INTERNAL_SERVER_ERROR.getMessage()
-        );
-        return ResponseEntity.internalServerError().body(response);
-    }
 }

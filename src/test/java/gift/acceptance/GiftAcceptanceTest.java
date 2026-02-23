@@ -124,6 +124,21 @@ class GiftAcceptanceTest extends AcceptanceTestBase {
                 .body("code", equalTo("INVALID_REQUEST"));
     }
 
+    @DisplayName("잘못된 형식의 요청 본문을 보내면 실패한다")
+    @Test
+    void giftFailsWhenRequestBodyInvalid() {
+        // when & then: 잘못된 JSON 전송
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .header("Member-Id", 1L)
+                .body("invalid json")
+                .when()
+                .post("/api/gifts")
+                .then()
+                .statusCode(400)
+                .body("code", equalTo("INVALID_REQUEST"));
+    }
+
     @DisplayName("존재하지 않는 Member-Id로 선물 전송 시 실패한다")
     @Test
     void giftFailsWhenMemberNotFound() {
