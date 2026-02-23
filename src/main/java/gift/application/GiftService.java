@@ -1,8 +1,9 @@
 package gift.application;
 
-import gift.error.BusinessException;
 import gift.error.CommonErrorCode;
+import gift.error.CommonException;
 import gift.error.GiftErrorCode;
+import gift.error.GiftException;
 import gift.model.Gift;
 import gift.model.GiftDelivery;
 import gift.model.MemberRepository;
@@ -30,9 +31,9 @@ public class GiftService {
 
     public void give(final GiveGiftRequest request, final Long memberId) {
         memberRepository.findById(memberId)
-                .orElseThrow(() -> new BusinessException(CommonErrorCode.MEMBER_NOT_FOUND));
+                .orElseThrow(() -> new CommonException(CommonErrorCode.MEMBER_NOT_FOUND));
         final Option option = optionRepository.findById(request.getOptionId())
-                .orElseThrow(() -> new BusinessException(GiftErrorCode.OPTION_NOT_FOUND));
+                .orElseThrow(() -> new GiftException(GiftErrorCode.OPTION_NOT_FOUND));
         option.decrease(request.getQuantity());
         final Gift gift = new Gift(
             memberId,

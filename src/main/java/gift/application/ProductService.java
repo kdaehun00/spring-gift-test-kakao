@@ -1,7 +1,7 @@
 package gift.application;
 
-import gift.error.BusinessException;
 import gift.error.ProductErrorCode;
+import gift.error.ProductException;
 import gift.model.Category;
 import gift.model.CategoryRepository;
 import gift.model.Product;
@@ -24,7 +24,7 @@ public class ProductService {
 
     public Product create(final CreateProductRequest request) {
         final Category category = categoryRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> new BusinessException(ProductErrorCode.CATEGORY_NOT_FOUND));
+                .orElseThrow(() -> new ProductException(ProductErrorCode.CATEGORY_NOT_FOUND));
         final Product product = new Product(request.getName(), request.getPrice(), request.getImageUrl(), category);
         return productRepository.save(product);
     }
