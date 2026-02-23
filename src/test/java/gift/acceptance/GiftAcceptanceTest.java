@@ -12,6 +12,7 @@ import org.springframework.test.context.jdbc.Sql;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
 @Sql(scripts = {"/sql/cleanup.sql", "/sql/gift-data.sql"})
 class GiftAcceptanceTest extends AcceptanceTestBase {
@@ -82,5 +83,64 @@ class GiftAcceptanceTest extends AcceptanceTestBase {
                 .post("/api/gifts")
                 .then()
                 .statusCode(404);
+    }
+
+    @DisplayName("Member-Id 헤더 누락 시 선물 전송이 실패한다")
+    @Test
+    void giftFailsWhenMemberIdHeaderMissing() {
+        // when & then: Member-Id 헤더 없이 요청
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(Map.of(
+                        "optionId", 1L,
+                        "quantity", 1,
+                        "receiverId", 2L,
+                        "message", "선물입니다"
+                ))
+                .when()
+                .post("/api/gifts")
+                .then()
+                .statusCode(400)
+                .body("code", equalTo("INVALID_REQUEST"));
+    }
+
+    @DisplayName("Member-Id에 숫자가 아닌 값을 보내면 실패한다")
+    @Test
+    void giftFailsWhenMemberIdNotNumeric() {
+        // when & then: Member-Id에 문자열 전송
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .header("Member-Id", "abc")
+                .body(Map.of(
+                        "optionId", 1L,
+                        "quantity", 1,
+                        "receiverId", 2L,
+                        "message", "선물입니다"
+                ))
+                .when()
+                .post("/api/gifts")
+                .then()
+                .statusCode(400)
+                .body("code", equalTo("INVALID_REQUEST"));
+    }
+
+    @DisplayName("존재하지 않는 Member-Id로 선물 전송 시 실패한다")
+    @Test
+    void giftFailsWhenMemberNotFound() {
+        // when & then: 존재하지 않는 회원 ID로 요청
+        RestAssured.given()
+                .contentType(ContentType.JSON)
+                .header("Member-Id", 9999L)
+                .body(Map.of(
+                        "optionId", 1L,
+                        "quantity", 1,
+                        "receiverId", 2L,
+                        "message", "선물입니다"
+                ))
+                .when()
+                .post("/api/gifts")
+                .then()
+                .statusCode(404)
+                .body("code", equalTo("MEMBER_NOT_FOUND"));
     }
 }
