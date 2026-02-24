@@ -1,0 +1,9 @@
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: gift
+      POSTGRES_USER: gift
+      POSTGRES_PASSWORD: gift
+    ports:
+      - "5432"

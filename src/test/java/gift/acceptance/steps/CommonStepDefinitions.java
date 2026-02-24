@@ -19,13 +19,7 @@ public class CommonStepDefinitions {
 
     @조건("{string} 데이터가 준비되어 있다")
     public void 데이터가_준비되어_있다(String dataName) {
-        jdbcTemplate.execute("SET REFERENTIAL_INTEGRITY FALSE");
-        jdbcTemplate.execute("TRUNCATE TABLE wish");
-        jdbcTemplate.execute("TRUNCATE TABLE option");
-        jdbcTemplate.execute("TRUNCATE TABLE product");
-        jdbcTemplate.execute("TRUNCATE TABLE category");
-        jdbcTemplate.execute("TRUNCATE TABLE member");
-        jdbcTemplate.execute("SET REFERENTIAL_INTEGRITY TRUE");
+        jdbcTemplate.execute("TRUNCATE TABLE wish, option, product, category, member RESTART IDENTITY CASCADE");
 
         if (!"cleanup-only".equals(dataName)) {
             String sqlFile = "/sql/" + dataName + ".sql";
