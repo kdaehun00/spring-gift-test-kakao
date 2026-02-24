@@ -1,18 +1,19 @@
 package gift.acceptance;
 
+import io.cucumber.spring.CucumberContextConfiguration;
 import io.restassured.RestAssured;
-import org.junit.jupiter.api.BeforeEach;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
+@CucumberContextConfiguration
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-abstract class AcceptanceTestBase {
+public class CucumberSpringConfiguration {
 
     @LocalServerPort
     private int port;
 
-    @BeforeEach
-    void setUp() {
+    @io.cucumber.java.Before
+    public void setUp() {
         RestAssured.port = port;
     }
 }
