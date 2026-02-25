@@ -3,17 +3,13 @@ package gift.acceptance;
 import io.cucumber.spring.CucumberContextConfiguration;
 import io.restassured.RestAssured;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
 
 @CucumberContextConfiguration
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 public class CucumberSpringConfiguration {
-
-    @LocalServerPort
-    private int port;
 
     @io.cucumber.java.Before
     public void setUp() {
-        RestAssured.port = port;
+        RestAssured.port = 28080;
     }
 }
