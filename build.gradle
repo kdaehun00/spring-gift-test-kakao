@@ -34,6 +34,7 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+	exclude '**/RunCucumberTest*'
 }
 
 tasks.register('cucumberTest', Test) {
@@ -41,6 +42,8 @@ tasks.register('cucumberTest', Test) {
 	include '**/RunCucumberTest*'
 	testClassesDirs = sourceSets.test.output.classesDirs
 	classpath = sourceSets.test.runtimeClasspath
+	dependsOn 'dockerUp'
+	finalizedBy 'dockerDown'
 }
 
 tasks.register('dockerBuild', Exec) {
@@ -48,6 +51,7 @@ tasks.register('dockerBuild', Exec) {
 }
 
 tasks.register('dockerUp', Exec) {
+	dependsOn 'dockerBuild'
 	commandLine 'docker', 'compose', 'up', '-d', '--wait'
 }
 
