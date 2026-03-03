@@ -1,6 +1,6 @@
 ---
 name: dockerize-app
-description: Spring Boot 애플리케이션을 Docker 컨테이너로 실행하여 프로덕션과 동일한 환경에서 End-to-End 테스트를 수행한다.
+description: Spring Boot 애플리케이션을 Docker로 컨테이너화한다. Dockerfile 작성, docker-compose.yml에 앱 서비스 추가, Gradle 태스크 등록 등 Docker 기반 배포 환경을 구성한다.
 disable-model-invocation: true
 argument-hint: (인자 없음)
 ---
