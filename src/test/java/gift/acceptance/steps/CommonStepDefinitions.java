@@ -1,5 +1,6 @@
 package gift.acceptance.steps;
 
+import gift.acceptance.DatabaseCleanup;
 import gift.acceptance.ScenarioContext;
 import io.cucumber.java.ko.그러면;
 import io.cucumber.java.ko.그리고;
@@ -12,6 +13,9 @@ import static org.hamcrest.Matchers.equalTo;
 public class CommonStepDefinitions {
 
     @Autowired
+    private DatabaseCleanup databaseCleanup;
+
+    @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -19,7 +23,7 @@ public class CommonStepDefinitions {
 
     @조건("{string} 데이터가 준비되어 있다")
     public void 데이터가_준비되어_있다(String dataName) {
-        jdbcTemplate.execute("TRUNCATE TABLE wish, option, product, category, member RESTART IDENTITY CASCADE");
+        databaseCleanup.execute();
 
         if (!"cleanup-only".equals(dataName)) {
             String sqlFile = "/sql/" + dataName + ".sql";
